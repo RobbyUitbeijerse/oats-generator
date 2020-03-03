@@ -841,7 +841,64 @@ describe("scripts/import-open-api", () => {
         },
       };
 
-      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`""`);
+      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "ListFields",
+            "description": "/**
+         * List all fields for the use case schema
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "listFields",
+              "responses": Object {
+                "200": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/FieldListResponse",
+                      },
+                    },
+                  },
+                  "description": "An array of schema fields",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "List all fields for the use case schema",
+              "tags": Array [
+                "schema",
+              ],
+            },
+            "paramsInPath": Array [],
+            "paramsTypes": "",
+            "route": "/fields",
+            "typeNames": Object {
+              "body": "any",
+              "query": "any",
+              "response": "FieldListResponse",
+            },
+            "verb": "get",
+          },
+          "output": "",
+        }
+      `);
     });
 
     it("should have a nice documentation with summary and description", () => {
@@ -858,7 +915,51 @@ describe("scripts/import-open-api", () => {
         },
       };
 
-      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`""`);
+      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "ListFields",
+            "description": "/**
+         * List all fields for the use case schema
+         * 
+         * This is a longer description to describe my endpoint
+         */
+        ",
+            "errorTypes": "unknown",
+            "headerParams": Array [],
+            "operation": Object {
+              "description": "This is a longer description to describe my endpoint",
+              "operationId": "listFields",
+              "responses": Object {
+                "200": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/FieldListResponse",
+                      },
+                    },
+                  },
+                  "description": "An array of schema fields",
+                },
+              },
+              "summary": "List all fields for the use case schema",
+              "tags": Array [
+                "schema",
+              ],
+            },
+            "paramsInPath": Array [],
+            "paramsTypes": "",
+            "route": "/fields",
+            "typeNames": Object {
+              "body": "any",
+              "query": "any",
+              "response": "FieldListResponse",
+            },
+            "verb": "get",
+          },
+          "output": "",
+        }
+      `);
     });
 
     it("should add a fallback if the error is not defined", () => {
@@ -874,7 +975,48 @@ describe("scripts/import-open-api", () => {
         },
       };
 
-      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`""`);
+      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "ListFields",
+            "description": "/**
+         * List all fields for the use case schema
+         */
+        ",
+            "errorTypes": "unknown",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "listFields",
+              "responses": Object {
+                "200": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/FieldListResponse",
+                      },
+                    },
+                  },
+                  "description": "An array of schema fields",
+                },
+              },
+              "summary": "List all fields for the use case schema",
+              "tags": Array [
+                "schema",
+              ],
+            },
+            "paramsInPath": Array [],
+            "paramsTypes": "",
+            "route": "/fields",
+            "typeNames": Object {
+              "body": "any",
+              "query": "any",
+              "response": "FieldListResponse",
+            },
+            "verb": "get",
+          },
+          "output": "",
+        }
+      `);
     });
 
     it("should remove duplicate types", () => {
@@ -903,7 +1045,74 @@ describe("scripts/import-open-api", () => {
         },
       };
 
-      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`""`);
+      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "ListFields",
+            "description": "/**
+         * List all fields for the use case schema
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "listFields",
+              "responses": Object {
+                "200": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/FieldListResponse",
+                      },
+                    },
+                  },
+                  "description": "An array of schema fields",
+                },
+                "404": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "file not found or field is not a file type",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "List all fields for the use case schema",
+              "tags": Array [
+                "schema",
+              ],
+            },
+            "paramsInPath": Array [],
+            "paramsTypes": "",
+            "route": "/fields",
+            "typeNames": Object {
+              "body": "any",
+              "query": "any",
+              "response": "FieldListResponse",
+            },
+            "verb": "get",
+          },
+          "output": "",
+        }
+      `);
     });
 
     it("should deal with parameters in query", () => {
@@ -948,7 +1157,90 @@ describe("scripts/import-open-api", () => {
       };
 
       expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`
-        "
+        Object {
+          "component": Object {
+            "componentName": "ListFields",
+            "description": "/**
+         * List all fields for the use case schema
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "listFields",
+              "parameters": Array [
+                Object {
+                  "description": "The id of the Contiamo tenant",
+                  "in": "query",
+                  "name": "tenantId",
+                  "required": true,
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+                Object {
+                  "description": "The id of the project",
+                  "in": "query",
+                  "name": "projectId",
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+              ],
+              "responses": Object {
+                "200": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/FieldListResponse",
+                      },
+                    },
+                  },
+                  "description": "An array of schema fields",
+                },
+                "404": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "file not found or field is not a file type",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "List all fields for the use case schema",
+              "tags": Array [
+                "schema",
+              ],
+            },
+            "paramsInPath": Array [],
+            "paramsTypes": "",
+            "route": "/fields",
+            "typeNames": Object {
+              "body": "any",
+              "query": "ListFieldsQueryParams",
+              "response": "FieldListResponse",
+            },
+            "verb": "get",
+          },
+          "output": "
               export interface ListFieldsQueryParams {
                 /**
            * The id of the Contiamo tenant
@@ -959,7 +1251,8 @@ describe("scripts/import-open-api", () => {
            */
           projectId?: string;
               }
-            "
+            ",
+        }
       `);
     });
     it("should deal with parameters in query (root level)", () => {
@@ -1011,7 +1304,71 @@ describe("scripts/import-open-api", () => {
           ],
         ),
       ).toMatchInlineSnapshot(`
-        "
+        Object {
+          "component": Object {
+            "componentName": "ListFields",
+            "description": "/**
+         * List all fields for the use case schema
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "listFields",
+              "responses": Object {
+                "200": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/FieldListResponse",
+                      },
+                    },
+                  },
+                  "description": "An array of schema fields",
+                },
+                "404": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "file not found or field is not a file type",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "List all fields for the use case schema",
+              "tags": Array [
+                "schema",
+              ],
+            },
+            "paramsInPath": Array [],
+            "paramsTypes": "",
+            "route": "/fields",
+            "typeNames": Object {
+              "body": "any",
+              "query": "ListFieldsQueryParams",
+              "response": "FieldListResponse",
+            },
+            "verb": "get",
+          },
+          "output": "
               export interface ListFieldsQueryParams {
                 /**
            * The id of the Contiamo tenant
@@ -1022,7 +1379,8 @@ describe("scripts/import-open-api", () => {
            */
           projectId?: string;
               }
-            "
+            ",
+        }
       `);
     });
 
@@ -1068,7 +1426,96 @@ describe("scripts/import-open-api", () => {
         },
       };
 
-      expect(generateRestfulComponent(operation, "get", "/fields/{id}", [])).toMatchInlineSnapshot(`""`);
+      expect(generateRestfulComponent(operation, "get", "/fields/{id}", [])).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "ListFields",
+            "description": "/**
+         * List all fields for the use case schema
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "listFields",
+              "parameters": Array [
+                Object {
+                  "description": "The id of the Contiamo tenant",
+                  "in": "path",
+                  "name": "tenantId",
+                  "required": true,
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+                Object {
+                  "description": "The id of the project",
+                  "in": "path",
+                  "name": "id",
+                  "required": true,
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+              ],
+              "responses": Object {
+                "200": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/FieldListResponse",
+                      },
+                    },
+                  },
+                  "description": "An array of schema fields",
+                },
+                "404": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "file not found or field is not a file type",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "List all fields for the use case schema",
+              "tags": Array [
+                "schema",
+              ],
+            },
+            "paramsInPath": Array [
+              "id",
+            ],
+            "paramsTypes": "id: string",
+            "route": "/fields/\${id}",
+            "typeNames": Object {
+              "body": "any",
+              "query": "any",
+              "response": "FieldListResponse",
+            },
+            "verb": "get",
+          },
+          "output": "",
+        }
+      `);
     });
 
     it("should deal with parameters in path (root level)", () => {
@@ -1120,7 +1567,76 @@ describe("scripts/import-open-api", () => {
             },
           ],
         ),
-      ).toMatchInlineSnapshot(`""`);
+      ).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "ListFields",
+            "description": "/**
+         * List all fields for the use case schema
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "listFields",
+              "responses": Object {
+                "200": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/FieldListResponse",
+                      },
+                    },
+                  },
+                  "description": "An array of schema fields",
+                },
+                "404": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "file not found or field is not a file type",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "List all fields for the use case schema",
+              "tags": Array [
+                "schema",
+              ],
+            },
+            "paramsInPath": Array [
+              "id",
+            ],
+            "paramsTypes": "id: string",
+            "route": "/fields/\${id}",
+            "typeNames": Object {
+              "body": "any",
+              "query": "any",
+              "response": "FieldListResponse",
+            },
+            "verb": "get",
+          },
+          "output": "",
+        }
+      `);
     });
 
     it("should generate a Mutate type component", () => {
@@ -1165,7 +1681,97 @@ describe("scripts/import-open-api", () => {
         },
       };
 
-      expect(generateRestfulComponent(operation, "put", "/use-cases/{useCaseId}", [])).toMatchInlineSnapshot(`""`);
+      expect(generateRestfulComponent(operation, "put", "/use-cases/{useCaseId}", [])).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "UpdateUseCase",
+            "description": "/**
+         * Update use case details
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "updateUseCase",
+              "parameters": Array [
+                Object {
+                  "description": "The id of the Contiamo tenant",
+                  "in": "path",
+                  "name": "tenantId",
+                  "required": true,
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+                Object {
+                  "description": "The id of the use case",
+                  "in": "path",
+                  "name": "useCaseId",
+                  "required": true,
+                  "schema": Object {
+                    "format": "uuid",
+                    "type": "string",
+                  },
+                },
+              ],
+              "requestBody": Object {
+                "content": Object {
+                  "application/json": Object {
+                    "schema": Object {
+                      "$ref": "#/components/schemas/UseCaseInstance",
+                    },
+                  },
+                },
+                "required": true,
+              },
+              "responses": Object {
+                "204": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/UseCaseResponse",
+                      },
+                    },
+                  },
+                  "description": "Use case updated",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "Update use case details",
+              "tags": Array [
+                "use-case",
+              ],
+            },
+            "paramsInPath": Array [
+              "useCaseId",
+            ],
+            "paramsTypes": "useCaseId: string",
+            "route": "/use-cases/\${useCaseId}",
+            "typeNames": Object {
+              "body": "UseCaseInstance",
+              "query": "any",
+              "response": "UseCaseResponse",
+            },
+            "verb": "put",
+          },
+          "output": "",
+        }
+      `);
     });
 
     it("should generate a request body type if it's inline in the specs", () => {
@@ -1220,7 +1826,97 @@ describe("scripts/import-open-api", () => {
       };
 
       expect(generateRestfulComponent(operation, "put", "/use-cases/{useCaseId}", [])).toMatchInlineSnapshot(`
-        "
+        Object {
+          "component": Object {
+            "componentName": "UpdateUseCase",
+            "description": "/**
+         * Update use case details
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "updateUseCase",
+              "parameters": Array [
+                Object {
+                  "description": "The id of the use case",
+                  "in": "path",
+                  "name": "useCaseId",
+                  "required": true,
+                  "schema": Object {
+                    "format": "uuid",
+                    "type": "string",
+                  },
+                },
+              ],
+              "requestBody": Object {
+                "content": Object {
+                  "application/json": Object {
+                    "schema": Object {
+                      "properties": Object {
+                        "description": Object {
+                          "type": "string",
+                        },
+                        "name": Object {
+                          "description": "The use case name",
+                          "type": "string",
+                        },
+                      },
+                      "required": Array [
+                        "name",
+                      ],
+                      "type": "object",
+                    },
+                  },
+                },
+                "required": true,
+              },
+              "responses": Object {
+                "204": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/UseCaseResponse",
+                      },
+                    },
+                  },
+                  "description": "Use case updated",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "Update use case details",
+              "tags": Array [
+                "use-case",
+              ],
+            },
+            "paramsInPath": Array [
+              "useCaseId",
+            ],
+            "paramsTypes": "useCaseId: string",
+            "route": "/use-cases/\${useCaseId}",
+            "typeNames": Object {
+              "body": "UpdateUseCaseRequestBody",
+              "query": "any",
+              "response": "UseCaseResponse",
+            },
+            "verb": "put",
+          },
+          "output": "
               export interface UpdateUseCaseRequestBody {
           /**
            * The use case name
@@ -1228,7 +1924,8 @@ describe("scripts/import-open-api", () => {
           name: string;
           description?: string;
         }
-            "
+            ",
+        }
       `);
     });
 
@@ -1290,12 +1987,111 @@ describe("scripts/import-open-api", () => {
       };
 
       expect(generateRestfulComponent(operation, "put", "/use-cases/{useCaseId}", [])).toMatchInlineSnapshot(`
-        "
+        Object {
+          "component": Object {
+            "componentName": "UpdateUseCase",
+            "description": "/**
+         * Update use case details
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "updateUseCase",
+              "parameters": Array [
+                Object {
+                  "description": "The id of the Contiamo tenant",
+                  "in": "path",
+                  "name": "tenantId",
+                  "required": true,
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+                Object {
+                  "description": "The id of the use case",
+                  "in": "path",
+                  "name": "useCaseId",
+                  "required": true,
+                  "schema": Object {
+                    "format": "uuid",
+                    "type": "string",
+                  },
+                },
+              ],
+              "requestBody": Object {
+                "content": Object {
+                  "application/json": Object {
+                    "schema": Object {
+                      "$ref": "#/components/schemas/UseCaseInstance",
+                    },
+                  },
+                },
+                "required": true,
+              },
+              "responses": Object {
+                "204": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "properties": Object {
+                          "id": Object {
+                            "type": "string",
+                          },
+                          "name": Object {
+                            "type": "string",
+                          },
+                        },
+                        "required": Array [
+                          "id",
+                        ],
+                        "type": "object",
+                      },
+                    },
+                  },
+                  "description": "Use case updated",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "Update use case details",
+              "tags": Array [
+                "use-case",
+              ],
+            },
+            "paramsInPath": Array [
+              "useCaseId",
+            ],
+            "paramsTypes": "useCaseId: string",
+            "route": "/use-cases/\${useCaseId}",
+            "typeNames": Object {
+              "body": "UseCaseInstance",
+              "query": "any",
+              "response": "UpdateUseCaseResponse",
+            },
+            "verb": "put",
+          },
+          "output": "
               export interface UpdateUseCaseResponse {
           id: string;
           name?: string;
         }
-            "
+            ",
+        }
       `);
     });
 
@@ -1360,12 +2156,114 @@ describe("scripts/import-open-api", () => {
       };
 
       expect(generateRestfulComponent(operation, "put", "/use-cases/{useCaseId}", [])).toMatchInlineSnapshot(`
-        "
+        Object {
+          "component": Object {
+            "componentName": "UpdateUseCase",
+            "description": "/**
+         * Update use case details
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "updateUseCase",
+              "parameters": Array [
+                Object {
+                  "description": "The id of the Contiamo tenant",
+                  "in": "path",
+                  "name": "tenantId",
+                  "required": true,
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+                Object {
+                  "description": "The id of the use case",
+                  "in": "path",
+                  "name": "useCaseId",
+                  "required": true,
+                  "schema": Object {
+                    "format": "uuid",
+                    "type": "string",
+                  },
+                },
+              ],
+              "requestBody": Object {
+                "content": Object {
+                  "application/json": Object {
+                    "schema": Object {
+                      "$ref": "#/components/schemas/UseCaseInstance",
+                    },
+                  },
+                },
+                "required": true,
+              },
+              "responses": Object {
+                "204": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "properties": Object {
+                          "id": Object {
+                            "type": "string",
+                          },
+                          "name": Object {
+                            "type": "string",
+                          },
+                        },
+                        "required": Array [
+                          "id",
+                        ],
+                        "type": "object",
+                      },
+                    },
+                  },
+                  "description": "Use case updated",
+                },
+                "302": Object {
+                  "$ref": "#/components/responses/LongPollingTimeout",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "Update use case details",
+              "tags": Array [
+                "use-case",
+              ],
+            },
+            "paramsInPath": Array [
+              "useCaseId",
+            ],
+            "paramsTypes": "useCaseId: string",
+            "route": "/use-cases/\${useCaseId}",
+            "typeNames": Object {
+              "body": "UseCaseInstance",
+              "query": "any",
+              "response": "UpdateUseCaseResponse",
+            },
+            "verb": "put",
+          },
+          "output": "
               export interface UpdateUseCaseResponse {
           id: string;
           name?: string;
         }
-            "
+            ",
+        }
       `);
     });
 
@@ -1406,7 +2304,78 @@ describe("scripts/import-open-api", () => {
         },
       };
 
-      expect(generateRestfulComponent(operation, "delete", "/use-cases/{useCaseId}", [])).toMatchInlineSnapshot(`""`);
+      expect(generateRestfulComponent(operation, "delete", "/use-cases/{useCaseId}", [])).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "DeleteUseCase",
+            "description": "/**
+         * Delete use case
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "deleteUseCase",
+              "parameters": Array [
+                Object {
+                  "description": "The id of the Contiamo tenant",
+                  "in": "path",
+                  "name": "tenantId",
+                  "required": true,
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+                Object {
+                  "description": "The id of the use case",
+                  "in": "path",
+                  "name": "useCaseId",
+                  "required": true,
+                  "schema": Object {
+                    "format": "uuid",
+                    "type": "string",
+                  },
+                },
+              ],
+              "responses": Object {
+                "204": Object {
+                  "description": "Empty response",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "Delete use case",
+              "tags": Array [
+                "use-case",
+              ],
+            },
+            "paramsInPath": Array [],
+            "paramsTypes": "",
+            "route": "/use-cases",
+            "typeNames": Object {
+              "body": "any",
+              "query": "any",
+              "response": "void",
+            },
+            "verb": "delete",
+          },
+          "output": "",
+        }
+      `);
     });
     it("should only remove the last params in delete operation", () => {
       const operation: OperationObject = {
@@ -1445,9 +2414,80 @@ describe("scripts/import-open-api", () => {
         },
       };
 
-      expect(generateRestfulComponent(operation, "delete", "/use-cases/{useCaseId}/secret", [])).toMatchInlineSnapshot(
-        `""`,
-      );
+      expect(generateRestfulComponent(operation, "delete", "/use-cases/{useCaseId}/secret", [])).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "DeleteUseCase",
+            "description": "/**
+         * Delete use case
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [],
+            "operation": Object {
+              "operationId": "deleteUseCase",
+              "parameters": Array [
+                Object {
+                  "description": "The id of the Contiamo tenant",
+                  "in": "path",
+                  "name": "tenantId",
+                  "required": true,
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+                Object {
+                  "description": "The id of the use case",
+                  "in": "path",
+                  "name": "useCaseId",
+                  "required": true,
+                  "schema": Object {
+                    "format": "uuid",
+                    "type": "string",
+                  },
+                },
+              ],
+              "responses": Object {
+                "204": Object {
+                  "description": "Empty response",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "Delete use case",
+              "tags": Array [
+                "use-case",
+              ],
+            },
+            "paramsInPath": Array [
+              "useCaseId",
+            ],
+            "paramsTypes": "useCaseId: string",
+            "route": "/use-cases/\${useCaseId}/secret",
+            "typeNames": Object {
+              "body": "any",
+              "query": "any",
+              "response": "void",
+            },
+            "verb": "delete",
+          },
+          "output": "",
+        }
+      `);
     });
 
     it("should generate a Poll compoment if the `prefer` token is present", () => {
@@ -1481,7 +2521,81 @@ describe("scripts/import-open-api", () => {
         },
       };
 
-      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`""`);
+      expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`
+        Object {
+          "component": Object {
+            "componentName": "ListFields",
+            "description": "/**
+         * List all fields for the use case schema
+         */
+        ",
+            "errorTypes": "APIError",
+            "headerParams": Array [
+              Object {
+                "in": "header",
+                "name": "prefer",
+                "schema": Object {
+                  "type": "string",
+                },
+              },
+            ],
+            "operation": Object {
+              "operationId": "listFields",
+              "parameters": Array [
+                Object {
+                  "in": "header",
+                  "name": "prefer",
+                  "schema": Object {
+                    "type": "string",
+                  },
+                },
+              ],
+              "responses": Object {
+                "200": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "schema": Object {
+                        "$ref": "#/components/schemas/FieldListResponse",
+                      },
+                    },
+                  },
+                  "description": "An array of schema fields",
+                },
+                "default": Object {
+                  "content": Object {
+                    "application/json": Object {
+                      "example": Object {
+                        "errors": Array [
+                          "msg1",
+                          "msg2",
+                        ],
+                      },
+                      "schema": Object {
+                        "$ref": "#/components/schemas/APIError",
+                      },
+                    },
+                  },
+                  "description": "unexpected error",
+                },
+              },
+              "summary": "List all fields for the use case schema",
+              "tags": Array [
+                "schema",
+              ],
+            },
+            "paramsInPath": Array [],
+            "paramsTypes": "",
+            "route": "/fields",
+            "typeNames": Object {
+              "body": "any",
+              "query": "any",
+              "response": "FieldListResponse",
+            },
+            "verb": "get",
+          },
+          "output": "",
+        }
+      `);
     });
   });
   it("should deal with no 2xx response case", () => {
@@ -1504,7 +2618,54 @@ describe("scripts/import-open-api", () => {
       },
     };
 
-    expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`""`);
+    expect(generateRestfulComponent(operation, "get", "/fields", [])).toMatchInlineSnapshot(`
+      Object {
+        "component": Object {
+          "componentName": "ListFields",
+          "description": "/**
+       * List all fields for the use case schema
+       */
+      ",
+          "errorTypes": "APIError",
+          "headerParams": Array [],
+          "operation": Object {
+            "operationId": "listFields",
+            "responses": Object {
+              "302": Object {
+                "description": "Just redirect",
+              },
+              "default": Object {
+                "content": Object {
+                  "application/json": Object {
+                    "example": Object {
+                      "errors": Array [
+                        "msg1",
+                        "msg2",
+                      ],
+                    },
+                    "schema": Object {
+                      "$ref": "#/components/schemas/APIError",
+                    },
+                  },
+                },
+                "description": "unexpected error",
+              },
+            },
+            "summary": "List all fields for the use case schema",
+          },
+          "paramsInPath": Array [],
+          "paramsTypes": "",
+          "route": "/fields",
+          "typeNames": Object {
+            "body": "any",
+            "query": "any",
+            "response": "void",
+          },
+          "verb": "get",
+        },
+        "output": "",
+      }
+    `);
   });
 
   describe("reactPropsValueToObjectValue", () => {
