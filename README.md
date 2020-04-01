@@ -25,7 +25,7 @@
 
 ## Getting Started
 
-To install and use this library, install it by running `yarn add oats-generator -D`, or `npm i oats-generator -D` and you should be good to go.
+To install and use this library, install it by running `yarn add @tpdewolf/oats-generator -D`, or `npm i @tpdewolf/oats-generator -D` and you should be good to go.
 
 ## Features
 
