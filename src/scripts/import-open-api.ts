@@ -304,13 +304,6 @@ export const generateRestfulComponent = (
 
   route = route.replace(/\{/g, "${"); // `/pet/{id}` => `/pet/${id}`
 
-  // Remove the last param of the route if we are in the DELETE case
-  let lastParamInTheRoute: string | null = null;
-  if (verb === "delete") {
-    const lastParamInTheRouteRegExp = /\/\$\{(\w+)\}\/?$/;
-    lastParamInTheRoute = (route.match(lastParamInTheRouteRegExp) || [])[1];
-    route = route.replace(lastParamInTheRouteRegExp, ""); // `/pet/${id}` => `/pet`
-  }
   const componentName = pascal(operation.operationId!);
 
   const isOk = ([statusCode]: [string, ResponseObject | ReferenceObject]) => statusCode.toString().startsWith("2");
@@ -344,7 +337,7 @@ export const generateRestfulComponent = (
    *    </DeleteResource>
    */
 
-  const paramsInPath = getParamsInPath(route).filter(param => !(verb === "delete" && param === lastParamInTheRoute));
+  const paramsInPath = getParamsInPath(route);
   const { query: queryParams = [], path: pathParams = [], header: headerParams = [] } = groupBy(
     [...parameters, ...(operation.parameters || [])].map<ParameterObject>(p => {
       if (isReference(p)) {
