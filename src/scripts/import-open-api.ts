@@ -339,7 +339,7 @@ export const generateRestfulComponent = (
 
   const paramsInPath = getParamsInPath(route);
   const { query: queryParams = [], path: pathParams = [], header: headerParams = [] } = groupBy(
-    [...parameters, ...(operation.parameters || [])].map<ParameterObject>(p => {
+    [...parameters, ...(operation.parameters || [])].map<ParameterObject>((p) => {
       if (isReference(p)) {
         return get(schemasComponents, p.$ref.replace("#/components/", "").replace("/", "."));
       } else {
@@ -350,9 +350,9 @@ export const generateRestfulComponent = (
   );
 
   const paramsTypes = paramsInPath
-    .map(p => {
+    .map((p) => {
       try {
-        const { name, required, schema } = pathParams.find(i => i.name === p)!;
+        const { name, required, schema } = pathParams.find((i) => i.name === p)!;
         return `${name}${required ? "" : "?"}: ${resolveValue(schema!)}`;
       } catch (err) {
         throw new Error(`The path params ${p} can't be found in parameters (${operation.operationId})`);
@@ -361,7 +361,7 @@ export const generateRestfulComponent = (
     .join(", ");
 
   const queryParamsType = queryParams
-    .map(p => {
+    .map((p) => {
       const processedName = IdentifierRegexp.test(p.name) ? p.name : `"${p.name}"`;
       return `${formatDescription(p.description, 2)}${processedName}${p.required ? "" : "?"}: ${resolveValue(
         p.schema!,
@@ -449,7 +449,7 @@ export const generateInterface = (name: string, schema: SchemaObject) => {
  */
 export const resolveDiscriminator = (specs: OpenAPIObject) => {
   if (specs.components && specs.components.schemas) {
-    Object.values(specs.components.schemas).forEach(schema => {
+    Object.values(specs.components.schemas).forEach((schema) => {
       if (isReference(schema) || !schema.discriminator || !schema.discriminator.mapping) {
         return;
       }
@@ -566,7 +566,7 @@ export const formatDescription = (description?: string, tabSize = 0) =>
   description
     ? `/**\n${description
         .split("\n")
-        .map(i => `${" ".repeat(tabSize)} * ${i}`)
+        .map((i) => `${" ".repeat(tabSize)} * ${i}`)
         .join("\n")}\n${" ".repeat(tabSize)} */\n${" ".repeat(tabSize)}`
     : "";
 
@@ -595,7 +595,7 @@ const validate = async (specs: OpenAPIObject) => {
   }
   if (warnings.length) {
     log(chalk.yellow("(!) Warnings"));
-    warnings.forEach(i =>
+    warnings.forEach((i) =>
       log(
         chalk.yellow(`
 Message : ${i.message}
@@ -605,7 +605,7 @@ Path    : ${i.path}`),
   }
   if (errors.length) {
     log(chalk.red("(!) Errors"));
-    errors.forEach(i =>
+    errors.forEach((i) =>
       log(
         chalk.red(`
 Message : ${i.message}
@@ -684,7 +684,7 @@ const importOpenApi = async ({
   let generatorOutput = "";
 
   if (customGenerator) {
-    components.forEach(component => {
+    components.forEach((component) => {
       generatorOutput += customGenerator(component);
     });
   }

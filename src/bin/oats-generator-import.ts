@@ -241,7 +241,7 @@ if (program.config) {
     .filter(([backend]) => (program.args.length === 0 ? true : program.args.includes(backend)))
     .forEach(([backend, options]) => {
       importSpecs(options)
-        .then(data => {
+        .then((data) => {
           if (options.output) {
             writeFileSync(join(process.cwd(), options.output), data);
             log(createSuccessMessage(backend));
@@ -250,7 +250,7 @@ if (program.config) {
             log(successWithoutOutputMessage);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           log(chalk.red(err));
           process.exit(1);
         });
@@ -258,7 +258,7 @@ if (program.config) {
 } else {
   // Use flags as configuration
   importSpecs((program as any) as Options)
-    .then(data => {
+    .then((data) => {
       if (program.output) {
         const outputFile = join(process.cwd(), program.output);
         const dirname = path.dirname(outputFile);
@@ -272,7 +272,7 @@ if (program.config) {
         log(successWithoutOutputMessage);
       }
     })
-    .catch(err => {
+    .catch((err) => {
       log(chalk.red(err));
     })
     .finally(() => {
