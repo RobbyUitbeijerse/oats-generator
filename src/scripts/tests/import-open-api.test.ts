@@ -2363,9 +2363,11 @@ describe("scripts/import-open-api", () => {
                 "use-case",
               ],
             },
-            "paramsInPath": Array [],
-            "paramsTypes": "",
-            "route": "/use-cases",
+            "paramsInPath": Array [
+              "useCaseId",
+            ],
+            "paramsTypes": "useCaseId: string",
+            "route": "/use-cases/\${useCaseId}",
             "typeNames": Object {
               "body": "any",
               "query": "any",
