@@ -7,75 +7,69 @@ const { camel } = require("case");
 module.exports = {
   "petstore-file": {
     file: "examples/petstore.yaml",
-    output: "examples/petstoreFromFileSpecWithConfig.ts",
+    output: "examples/default.ts",
   },
-  "petstore-github": {
-    github: "OAI:OpenAPI-Specification:master:examples/v3.0/petstore.yaml",
-    output: "examples/petstoreFromGithubSpecWithConfig.ts",
-    customImport: "/* a custom import */",
-    customProps: {
-      base: `"http://my-pet-store.com"`,
-    },
-  },
-  "petstore-custom-fetch": {
+  "petstore-axios": {
     file: "examples/petstore.yaml",
-    output: "examples/petstoreFromFileSpecWithCustomFetch.ts",
+    output: "examples/axios.ts",
     customImport: `
-      import { HttpClient, RequestConfig } from './Http'
-      export const clientInstance = new HttpClient();
+      import axios, { AxiosRequestConfig } from 'axios'
+      export const clientInstance = axios.create();
     `,
     customGenerator: ({ componentName, verb, route, typeNames, paramsTypes }) => {
       if (verb === "get") {
         return `
           export const ${camel(componentName)} = (${paramsTypes ? paramsTypes + "," : ""}params?: ${
           typeNames.query
-        }, config?: RequestConfig) => clientInstance.get<${typeNames.response}>(\`${route}\`, params, config)
+        }, config?: AxiosRequestConfig) => clientInstance.get<${
+          typeNames.response
+        }>(\`${route}\`, { ...config, params })
         `;
       } else {
         return `
           export const ${camel(componentName)} = (${paramsTypes ? paramsTypes + "," : ""}body: ${
           typeNames.body
-        }, config?: RequestConfig) => clientInstance.${verb}<${typeNames.response}>(\`${route}\`, body, config)
+        }, config?: AxiosRequestConfig) => clientInstance.${verb}<${typeNames.response}>(\`${route}\`, body, config)
         `;
       }
     },
   },
   "petstore-custom-operation": {
     file: "examples/petstore.yaml",
-    output: "examples/petstoreFromFileSpecWithCustomOperation.ts",
+    output: "examples/operationId.ts",
     customOperationNameGenerator: ({ verb, route }) => {
       const words = route.replace("/api/v1/", "").split("/");
 
-      const entities = words.filter(word => !word.includes("{"));
+      const entities = words.filter((word) => !word.includes("{"));
       const operators = words
-        .filter(word => word.includes("{"))
-        .map(word => {
+        .filter((word) => word.includes("{"))
+        .map((word) => {
           return camel(["by", word].join(" "));
         });
 
       return camel([verb, ...entities, ...operators].join(" "));
     },
     customImport: `
-      import { HttpClient, RequestConfig } from './Http'
+      import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
     `,
     customGenerator: ({ componentName, verb, route, typeNames, paramsTypes }) => {
       if (verb === "get") {
         return `
           ${camel(componentName)}: (${paramsTypes ? paramsTypes + "," : ""}params?: ${
           typeNames.query
-        }, config?: RequestConfig) => client.get<${typeNames.response}>(\`${route}\`, params, config),
+        }, config?: AxiosRequestConfig) => client.get<${typeNames.response}>(\`${route}\`, { ...config, params }),
         `;
       } else {
         return `
           ${camel(componentName)}: (${paramsTypes ? paramsTypes + "," : ""}body: ${
           typeNames.body
-        }, config?: RequestConfig) => client.${verb}<${typeNames.response}>(\`${route}\`, body, config),
+        }, config?: AxiosRequestConfig) => client.${verb}<${typeNames.response}>(\`${route}\`, body, config),
         `;
       }
     },
-    customGeneratorWrap: children => {
+    customGeneratorWrap: (children) => {
       return `
-      export function createApi(client: HttpClient) {
+      export function createApi(client: AxiosInstance) {
         return {
           ${children}
         }
@@ -85,7 +79,7 @@ module.exports = {
   },
   "petstore-swr": {
     file: "examples/petstore.yaml",
-    output: "examples/petstoreSwr.ts",
+    output: "examples/swr.ts",
     customImport: `
       import useSWR from "swr";
       import { fetcherFn, ConfigInterface } from "swr/dist/types";

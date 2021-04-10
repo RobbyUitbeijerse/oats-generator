@@ -1,8 +1,9 @@
 import chalk from "chalk";
 import program from "commander";
-import { existsSync, readFileSync, unlinkSync, writeFileSync, mkdirSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import inquirer from "inquirer";
 import difference from "lodash/difference";
+import pick from "lodash/pick";
 import path, { join, parse } from "path";
 import request from "request";
 import { homedir } from "os";
@@ -68,6 +69,16 @@ const successWithoutOutputMessage = chalk.yellow("Success! No output path specif
 const importSpecs = async (options: AdvancedOptions) => {
   const transformer = options.transformer ? require(join(process.cwd(), options.transformer)) : undefined;
 
+  const optionsKeys: Array<keyof Options | keyof AdvancedOptions> = [
+    "validation",
+    "customImport",
+    "customProps",
+    "customGenerator",
+    "customGeneratorWrap",
+    "customOperationNameGenerator",
+  ];
+  const importOptions = pick(options, optionsKeys);
+
   if (!options.file && !options.url && !options.github) {
     throw new Error("You need to provide an input specification with `--file`, '--url', or `--github`");
   }
@@ -81,12 +92,7 @@ const importSpecs = async (options: AdvancedOptions) => {
       data,
       format,
       transformer,
-      validation: options.validation,
-      customImport: options.customImport,
-      customProps: options.customProps,
-      customGenerator: options.customGenerator,
-      customGeneratorWrap: options.customGeneratorWrap,
-      customOperationNameGenerator: options.customOperationNameGenerator,
+      ...importOptions,
     });
   } else if (options.url) {
     const { url } = options;
@@ -118,12 +124,7 @@ const importSpecs = async (options: AdvancedOptions) => {
             data: body,
             format,
             transformer,
-            validation: options.validation,
-            customImport: options.customImport,
-            customProps: options.customProps,
-            customGenerator: options.customGenerator,
-            customGeneratorWrap: options.customGeneratorWrap,
-            customOperationNameGenerator: options.customOperationNameGenerator,
+            ...importOptions,
           }),
         );
       });
@@ -207,12 +208,7 @@ const importSpecs = async (options: AdvancedOptions) => {
             data: body.data.repository.object.text,
             format,
             transformer,
-            validation: options.validation,
-            customImport: options.customImport,
-            customProps: options.customProps,
-            customGenerator: options.customGenerator,
-            customGeneratorWrap: options.customGeneratorWrap,
-            customOperationNameGenerator: options.customOperationNameGenerator,
+            ...importOptions,
           }),
         );
       });
@@ -274,6 +270,7 @@ if (program.config) {
     })
     .catch((err) => {
       log(chalk.red(err));
+      process.exit(1);
     })
     .finally(() => {
       process.exit(1);

@@ -22,7 +22,7 @@ import {
 
 import swagger2openapi from "swagger2openapi";
 
-import YAML from "yamljs";
+import YAML from "js-yaml";
 import { AdvancedOptions } from "../bin/oats-generator-import";
 
 const IdentifierRegexp = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
@@ -33,7 +33,7 @@ const IdentifierRegexp = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
  * @param property
  */
 export const isReference = (property: any): property is ReferenceObject => {
-  return Boolean(property && property.$ref);
+  return Boolean(property?.$ref);
 };
 
 /**
@@ -64,6 +64,9 @@ export const getScalar = (item: SchemaObject) => {
 
     case "array":
       return getArray(item) + nullable;
+
+    case "null":
+      return "null";
 
     case "string":
     case "byte":
@@ -112,7 +115,7 @@ export const getArray = (item: SchemaObject): string => {
       return `${resolveValue(item.items)}[]`;
     }
   } else {
-    throw new Error("All arrays must have an `items` key define");
+    throw new Error("All arrays must have an `items` key defined");
   }
 };
 
@@ -203,7 +206,11 @@ export const getResReqTypes = (
 
       if (res.content) {
         for (let contentType of Object.keys(res.content)) {
-          if (contentType.startsWith("application/json") || contentType.startsWith("application/octet-stream")) {
+          if (
+            contentType.startsWith("*/*") ||
+            contentType.startsWith("application/json") ||
+            contentType.startsWith("application/octet-stream")
+          ) {
             const schema = res.content[contentType].schema!;
             return resolveValue(schema);
           }
@@ -244,7 +251,7 @@ export const getParamsInPath = (path: string) => {
  * @param format format of the spec
  */
 const importSpecs = (data: string, extension: "yaml" | "json"): Promise<OpenAPIObject> => {
-  const schema = extension === "yaml" ? YAML.parse(data) : JSON.parse(data);
+  const schema = extension === "yaml" ? YAML.safeLoad(data) : JSON.parse(data);
 
   return new Promise((resolve, reject) => {
     if (!schema.openapi || !schema.openapi.startsWith("3.0")) {
@@ -267,7 +274,12 @@ const importSpecs = (data: string, extension: "yaml" | "json"): Promise<OpenAPIO
  * Example:
  *  reactPropsValueToObjectValue(`{ getConfig("myVar") }`) // `getConfig("myVar")`
  */
-export const reactPropsValueToObjectValue = (value: string) => value.replace(/^{(.*)}$/, "$1");
+export const reactPropsValueToObjectValue = (value: string) => {
+  if (value.startsWith("{") && value.endsWith("}")) {
+    return value.slice(1, -1);
+  }
+  return value;
+};
 
 /**
  * Generate typescript types from openapi operation specs
@@ -352,13 +364,15 @@ export const generateRestfulComponent = (
   const paramsTypes = paramsInPath
     .map((p) => {
       try {
-        const { name, required, schema } = pathParams.find((i) => i.name === p)!;
-        return `${name}${required ? "" : "?"}: ${resolveValue(schema!)}`;
+        const { name, required, schema, description } = pathParams.find((i) => i.name === p)!;
+        return `${description ? formatDescription(description, 2) : ""}${name}${required ? "" : "?"}: ${resolveValue(
+          schema!,
+        )}`;
       } catch (err) {
         throw new Error(`The path params ${p} can't be found in parameters (${operation.operationId})`);
       }
     })
-    .join(", ");
+    .join(";\n  ");
 
   const queryParamsType = queryParams
     .map((p) => {
@@ -437,7 +451,10 @@ export const generateRestfulComponent = (
  */
 export const generateInterface = (name: string, schema: SchemaObject) => {
   const scalar = getScalar(schema);
-  return `${formatDescription(schema.description)}export interface ${pascal(name)} ${scalar}`;
+  const isEmptyInterface = scalar === "{}";
+  return `${formatDescription(schema.description)}${
+    isEmptyInterface ? "// tslint:disable-next-line:no-empty-interface\n" : ""
+  }export interface ${pascal(name)} ${scalar}`;
 };
 
 /**
@@ -466,6 +483,13 @@ export const resolveDiscriminator = (specs: OpenAPIObject) => {
     });
   }
 };
+
+/**
+ * Add the version of the spec
+ *
+ * @param version
+ */
+export const addVersionMetadata = (version: string) => `export const SPEC_VERSION = "${version}"; \n`;
 
 /**
  * Extract all types from #/components/schemas
@@ -659,6 +683,7 @@ const importOpenApi = async ({
   let output = "";
   const components: ReturnType<typeof generateRestfulComponent>["component"][] = [];
 
+  output += addVersionMetadata(specs.info.version);
   output += generateSchemasDefinition(specs.components && specs.components.schemas);
   output += generateRequestBodiesDefinition(specs.components && specs.components.requestBodies);
   output += generateResponsesDefinition(specs.components && specs.components.responses);

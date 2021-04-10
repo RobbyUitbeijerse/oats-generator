@@ -9,6 +9,8 @@
     "fetch",
     "data fetching"
   ],
+  "homepage": "https://github.com/tpdewolf/oats-generator",
+  "bugs": "https://github.com/tpdewolf/oats-generator/issues",
   "license": "MIT",
   "contributors": [
     {
@@ -36,9 +38,6 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "module": "dist/oats-generator.esm.js",
-  "publishConfig": {
-    "access": "public"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tpdewolf/oats-generator"
@@ -64,6 +63,7 @@
     "commander": "^4.1.0",
     "ibm-openapi-validator": "^0.16.0",
     "inquirer": "^7.0.3",
+    "js-yaml": "^3.14.0",
     "lodash": "^4.17.15",
     "lodash-es": "^4.17.15",
     "openapi3-ts": "^1.3.0",
@@ -72,16 +72,15 @@
     "request": "^2.88.0",
     "slash": "^3.0.0",
     "swagger2openapi": "^5.3.2",
-    "tslib": "^1.10.0",
-    "url": "^0.11.0",
-    "yamljs": "^0.3.0"
+    "tslib": "^2.1.0",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
     "@types/commander": "^2.12.2",
     "@types/inquirer": "6.5.0",
-    "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^24.0.25",
+    "@types/js-yaml": "^3.12.5",
     "@types/lodash": "^4.14.149",
     "@types/nock": "^11.1.0",
     "@types/node": "^13.1.6",
@@ -89,7 +88,8 @@
     "@types/qs": "^6.9.0",
     "@types/request": "^2.48.4",
     "@types/yamljs": "^0.2.30",
-    "auto-changelog": "^1.16.2",
+    "auto-changelog": "^2.2.1",
+    "axios": "^0.21.1",
     "doctoc": "^1.4.0",
     "husky": "^4.0.7",
     "isomorphic-fetch": "^2.2.1",
