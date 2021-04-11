@@ -45,7 +45,7 @@ export type AdvancedOptions = Options & {
   customProps?: {
     base?: string;
   };
-  customOperationName?: (data: { verb: string; route: string }) => string;
+  customOperationName?: (data: { operationId: string | undefined; verb: string; route: string }) => string;
   customGenerator?: (data: Component[]) => string;
 };
 

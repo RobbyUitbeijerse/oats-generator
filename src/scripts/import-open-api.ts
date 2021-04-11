@@ -297,18 +297,20 @@ export const generateRestfulComponent = (
   operationIds: string[],
   parameters: Array<ReferenceObject | ParameterObject> = [],
   schemasComponents?: ComponentsObject,
-  customOperationNameGenerator?: AdvancedOptions["customOperationName"],
+  customOperationName?: AdvancedOptions["customOperationName"],
 ) => {
-  if (!operation.operationId) {
-    if (!customOperationNameGenerator) {
-      throw new Error(`Every path must have a operationId - No operationId set for ${verb} ${route}`);
-    }
-
-    operation.operationId = customOperationNameGenerator({
+  if (customOperationName) {
+    operation.operationId = customOperationName({
+      operationId: operation.operationId,
       verb,
       route,
     });
   }
+
+  if (!operation.operationId) {
+    throw new Error(`Every path must have a operationId - No operationId set for ${verb} ${route}`);
+  }
+
   if (operationIds.includes(operation.operationId)) {
     throw new Error(`"${operation.operationId}" is duplicated in your schema definition!`);
   }
