@@ -4,7 +4,7 @@ import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "
 import inquirer from "inquirer";
 import difference from "lodash/difference";
 import pick from "lodash/pick";
-import path, { join, parse } from "path";
+import { dirname, join, parse } from "path";
 import request from "request";
 import { homedir } from "os";
 import slash from "slash";
@@ -23,29 +23,30 @@ export interface Options {
   validation?: boolean;
 }
 
+export interface Component {
+  componentName: string;
+  verb: string;
+  route: string;
+  description: string;
+  typeNames: {
+    response: string;
+    query: string;
+    body: string;
+  };
+  errorTypes: string;
+  headerParams: ParameterObject[];
+  operation: OperationObject;
+  paramsInPath: string[];
+  paramsTypes: string;
+}
+
 export type AdvancedOptions = Options & {
   customImport?: string;
   customProps?: {
     base?: string;
   };
-  customOperationNameGenerator?: (data: { verb: string; route: string }) => string;
-  customGeneratorWrap?: (children: string) => string;
-  customGenerator?: (data: {
-    componentName: string;
-    verb: string;
-    route: string;
-    description: string;
-    typeNames: {
-      response: string;
-      query: string;
-      body: string;
-    };
-    errorTypes: string;
-    headerParams: ParameterObject[];
-    operation: OperationObject;
-    paramsInPath: string[];
-    paramsTypes: string;
-  }) => string;
+  customOperationName?: (data: { verb: string; route: string }) => string;
+  customGenerator?: (data: Component[]) => string;
 };
 
 export interface ExternalConfigFile {
@@ -74,8 +75,7 @@ const importSpecs = async (options: AdvancedOptions) => {
     "customImport",
     "customProps",
     "customGenerator",
-    "customGeneratorWrap",
-    "customOperationNameGenerator",
+    "customOperationName",
   ];
   const importOptions = pick(options, optionsKeys);
 
@@ -257,9 +257,9 @@ if (program.config) {
     .then((data) => {
       if (program.output) {
         const outputFile = join(process.cwd(), program.output);
-        const dirname = path.dirname(outputFile);
-        if (!existsSync(dirname)) {
-          mkdirSync(dirname, { recursive: true });
+        const dir = dirname(outputFile);
+        if (!existsSync(dir)) {
+          mkdirSync(dir, { recursive: true });
         }
         writeFileSync(join(process.cwd(), program.output), data);
         log(createSuccessMessage());
