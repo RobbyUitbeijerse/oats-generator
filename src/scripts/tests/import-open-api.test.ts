@@ -1504,7 +1504,10 @@ describe("scripts/import-open-api", () => {
             "paramsInPath": Array [
               "id",
             ],
-            "paramsTypes": "id: string",
+            "paramsTypes": "/**
+           * The id of the project
+           */
+          id: string",
             "route": "/fields/\${id}",
             "typeNames": Object {
               "body": "any",
@@ -1625,7 +1628,10 @@ describe("scripts/import-open-api", () => {
             "paramsInPath": Array [
               "id",
             ],
-            "paramsTypes": "id: string",
+            "paramsTypes": "/**
+           * The id of the project
+           */
+          id: string",
             "route": "/fields/\${id}",
             "typeNames": Object {
               "body": "any",
@@ -1760,7 +1766,10 @@ describe("scripts/import-open-api", () => {
             "paramsInPath": Array [
               "useCaseId",
             ],
-            "paramsTypes": "useCaseId: string",
+            "paramsTypes": "/**
+           * The id of the use case
+           */
+          useCaseId: string",
             "route": "/use-cases/\${useCaseId}",
             "typeNames": Object {
               "body": "UseCaseInstance",
@@ -1907,7 +1916,10 @@ describe("scripts/import-open-api", () => {
             "paramsInPath": Array [
               "useCaseId",
             ],
-            "paramsTypes": "useCaseId: string",
+            "paramsTypes": "/**
+           * The id of the use case
+           */
+          useCaseId: string",
             "route": "/use-cases/\${useCaseId}",
             "typeNames": Object {
               "body": "UpdateUseCaseRequestBody",
@@ -2076,7 +2088,10 @@ describe("scripts/import-open-api", () => {
             "paramsInPath": Array [
               "useCaseId",
             ],
-            "paramsTypes": "useCaseId: string",
+            "paramsTypes": "/**
+           * The id of the use case
+           */
+          useCaseId: string",
             "route": "/use-cases/\${useCaseId}",
             "typeNames": Object {
               "body": "UseCaseInstance",
@@ -2248,7 +2263,10 @@ describe("scripts/import-open-api", () => {
             "paramsInPath": Array [
               "useCaseId",
             ],
-            "paramsTypes": "useCaseId: string",
+            "paramsTypes": "/**
+           * The id of the use case
+           */
+          useCaseId: string",
             "route": "/use-cases/\${useCaseId}",
             "typeNames": Object {
               "body": "UseCaseInstance",
@@ -2366,7 +2384,10 @@ describe("scripts/import-open-api", () => {
             "paramsInPath": Array [
               "useCaseId",
             ],
-            "paramsTypes": "useCaseId: string",
+            "paramsTypes": "/**
+           * The id of the use case
+           */
+          useCaseId: string",
             "route": "/use-cases/\${useCaseId}",
             "typeNames": Object {
               "body": "any",
@@ -2478,7 +2499,10 @@ describe("scripts/import-open-api", () => {
             "paramsInPath": Array [
               "useCaseId",
             ],
-            "paramsTypes": "useCaseId: string",
+            "paramsTypes": "/**
+           * The id of the use case
+           */
+          useCaseId: string",
             "route": "/use-cases/\${useCaseId}/secret",
             "typeNames": Object {
               "body": "any",
