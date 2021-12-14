@@ -48,6 +48,7 @@ export const getScalar = (item: SchemaObject) => {
   }
 
   const nullable = item.nullable ? " | null" : "";
+
   switch (item.type) {
     case "int32":
     case "int64":
@@ -60,6 +61,7 @@ export const getScalar = (item: SchemaObject) => {
 
     case "boolean":
       return "boolean" + nullable;
+
     case "array":
       return getArray(item) + nullable;
 
@@ -73,27 +75,12 @@ export const getScalar = (item: SchemaObject) => {
     case "dateTime":
     case "date-time":
     case "password":
-      return (item.enum ? getEnum(item.enum) : "string") + nullable;
+      return (item.enum ? `"${item.enum.join(`" | "`)}"` : "string") + nullable;
 
     case "object":
     default:
       return getObject(item) + nullable;
   }
-};
-
-/**
- * Generates a string enum values
- * https://www.typescriptlang.org/docs/handbook/enums.html#string-enums
- *
- * @param $ref
- */
-export const getEnum = (enumValues: any[]): string => {
-  return enumValues
-    .reduce((acc, value) => {
-      acc.push(`${value} = '${value}'`);
-      return acc;
-    }, [])
-    .join(",");
 };
 
 /**
@@ -526,10 +513,6 @@ export const generateSchemasDefinition = (schemas: ComponentsObject["schemas"] =
         !isReference(schema) &&
         !schema.nullable
           ? generateInterface(name, schema)
-          : (schema as SchemaObject)?.enum
-          ? `${formatDescription(isReference(schema) ? undefined : schema.description)}export enum ${pascal(
-              name,
-            )} { ${resolveValue(schema)} }`
           : `${formatDescription(isReference(schema) ? undefined : schema.description)}export type ${pascal(
               name,
             )} = ${resolveValue(schema)};`,
