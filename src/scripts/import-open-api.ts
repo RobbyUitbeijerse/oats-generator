@@ -387,7 +387,7 @@ export const generateRestfulComponent = (
         throw new Error(`The path params ${p} can't be found in parameters (${operation.operationId})`);
       }
     })
-    .join(";\n  ");
+    .join(", ");
 
   const queryParamsType = queryParams
     .map((p) => {
