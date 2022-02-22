@@ -211,7 +211,12 @@ export const getResReqTypes = (
             contentType.startsWith("application/json") ||
             contentType.startsWith("application/octet-stream")
           ) {
-            const schema = res.content[contentType].schema!;
+            const schema = res.content[contentType].schema;
+
+            if (!schema) {
+              return "void";
+            }
+
             return resolveValue(schema);
           }
         }
